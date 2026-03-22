@@ -5,19 +5,17 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 jobs:
   test-and-deploy:
     runs-on: ubuntu-latest
-    # Adicionamos o ambiente aqui para o GitHub reconhecer o deploy
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
