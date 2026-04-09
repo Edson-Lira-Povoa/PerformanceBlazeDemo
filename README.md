@@ -1,74 +1,58 @@
-# 🚀 Desafio Técnico: Performance Test - BlazeDemo
+Blaze Demo – Teste de Performance JMeter
 
-Este repositório contém a automação de testes de performance para o cenário de compra de passagens aéreas no site [BlazeDemo](https://www.blazedemo.com). O objetivo é validar a estabilidade e o tempo de resposta do sistema sob uma carga específica.
+Este repositório contém a automação de testes de performance que eu desenvolvi para o fluxo de compra de passagens aéreas no site BlazeDemo
+.
+O objetivo é validar estabilidade, throughput e tempo de resposta do sistema sob uma carga simulada de usuários reais.
 
----
+🛠 Tecnologias que usei
+Apache JMeter 5.x – Criação e execução dos testes de carga
+Java 11+ – Ambiente de execução
+HTML Dashboard Report – Visualização gráfica dos resultados
 
-## 🛠️ Tecnologias Utilizadas
-* **Apache JMeter 5.x**
-* **Java 11+**
-* **HTML Dashboard Report** 
-
----
-
-## 🚀 Como Executar o Script
-1. Clone este repositório:
-```bash
-git clone git@github.com:GabiGomess/AgibankPerformance.git
-```
-2. Execute o teste com o seguinte comando:
-```bash
+🚀 Como rodar meu Test Plan
+Clone meu repositório:
+git clone https://github.com/Edson-Lira-Povoa/PerformanceBlazeDemo.git
+Execute o teste pelo terminal:
 jmeter -n -t ./scripts/script.jmx -l ./results/log_execucao.jtl -e -o ./results/dashboard -f
-```
 
-## 📊 Relatório de Execução (CI/CD)
-Os testes são executados automaticamente via GitHub Actions. O relatório histórico e detalhado do Allure Report pode ser visualizado online através do link abaixo:
+O relatório HTML será gerado automaticamente na pasta ./results/dashboard.
 
-👉 [Acesse o Relatório de Testes Aqui](https://gabigomess.github.io/AgibankPerformance/)
+📋 Cenário que testei
 
----
+O Test Plan simula todo o fluxo de compra de passagens:
 
-## 📋 Cenário de Teste
-Simulação do fluxo de compra ponta a ponta:
-1.  **Home:** Acesso à página inicial.
-2.  **Reserva:** Seleção de cidades de origem e destino.
-3.  **Escolha de Voo:** Seleção da companhia aérea e preço.
-4.  **Compra:** Preenchimento dos dados do passageiro.
-5.  **Confirmação:** Validação da mensagem de sucesso ("Thank you for your purchase today!").
+Home: Acesso à página inicial do BlazeDemo
+Reserva: Seleção das cidades de origem e destino
+Escolha de Voo: Seleção da companhia aérea e preço
+Compra: Preenchimento dos dados do passageiro
+Confirmação: Validação da mensagem de sucesso (“Thank you for your purchase today!”)
+📈 Critérios que considerei
+Vazão alvo: 250 requisições por segundo (RPS)
+Performance: 90th Percentile (P90) abaixo de 2 segundos
+📊 Resultados que obtive
+Métrica	Valor	Status
+Throughput Médio	46,4 req/s	❌ NOK
+90th Percentile (P90)	7.224 ms	❌ NOK
+Taxa de Erro	0,00%	✅ OK
 
-## 📈 Critérios de Aceitação
-De acordo com os requisitos técnicos:
-* **Vazão Alvo:** 250 requisições por segundo (RPS).
-* **Performance:** 90th Percentile (P90) inferior a **2 segundos**.
+O sistema se mostrou funcionalmente estável, mas não atingiu os requisitos de performance.
 
----
+🚨 Minha análise
+1. Vazão (Throughput)
+Exigido: 250 req/s
+Obtido: 46,4 req/s
+Observação: A aplicação não conseguiu processar a carga esperada. Isso indica limitação no sistema ou na infraestrutura usada para o teste.
 
-## 📊 Relatório de Execução e Conclusão
-### Resumo dos Resultados
-| Métrica | Valor Obtido | Status |
-|---------|--------------|--------|
-| Throughput Médio | 46,4 req/s | ❌ NOK |
-| 90th Percentile (P90) | 7224ms | ❌ NOK |
-| Taxa de Erro | 0.00% | ✅ OK |
+2. Tempo de Resposta (P90)
+Exigido: < 2s
+Obtido: 7,2s
+Observação: A experiência do usuário é impactada, pois o tempo de resposta ficou 3,6x acima do limite.
 
----
+3. Taxa de Erro
+Obtido: 0%
+Observação: Nenhum erro funcional, a aplicação se manteve estável.
+Possíveis motivos do resultado
+Gargalo de infraestrutura: O servidor BlazeDemo pode ter limitações de CPU/Memória.
+Latência de rede: Ambiente público pode impactar o tempo de resposta.
 
-## 🚨 Conclusão Técnica
-O critério de aceitação para este cenário de performance NÃO foi satisfeito. Abaixo, detalho a análise técnica comparando os requisitos com os valores obtidos:
 
-1. **Análise de Vazão (Throughput)**
-**Critério Exigido**: 250 requisições por segundo (RPS).
-**Valor médio Obtido**: 46,4 req/s.
-**Diagnóstico**: O sistema não atingiu a carga alvo. A vazão obtida foi aproximadamente 18% do valor solicitado. Isso indica que, sob a carga testada, a aplicação (ou a infraestrutura injetora) não conseguiu processar o volume de requisições esperado.
-
-2. **Análise de Tempo de Resposta (P90)**
-**Critério Exigido**: Inferior a 2 segundos (2000ms).
-**Valor Médio Obtido**: 7224ms.
-**Diagnóstico**: O percentil 90 (P90) foi de 7,2 segundos, o que é 3,6 vezes superior ao limite aceitável. Isso significa que a experiência do usuário final é severamente impactada sob carga, com tempos de espera excessivos.
-
-3. **Conclusão Final**: 
-O teste foi concluído com 0.00% de erros, o que demonstra que a aplicação é funcionalmente estável, porém não performática para o cenário de 250 RPS.
-
-**Motivos para o insucesso**:
-- **Gargalo de Aplicação/Infra**: O servidor do BlazeDemo pode possuir limitações de recursos (CPU/Memória) ou configurações de servidor web que impedem o processamento de alta concorrência.
-- **Latência de Rede**: Por ser um ambiente público, a latência de rede entre a máquina injetora e o servidor impactou diretamente o tempo de resposta acumulado.
