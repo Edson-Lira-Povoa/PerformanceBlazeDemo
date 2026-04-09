@@ -1,0 +1,5 @@
+results/
+*.log
+*.jtl
+*.html
+.github/workflows/
