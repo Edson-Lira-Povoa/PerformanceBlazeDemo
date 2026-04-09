@@ -11,7 +11,8 @@ HTML Dashboard Report – Visualização gráfica dos resultados
 
 🚀 Como rodar meu Test Plan
 Clone meu repositório:
-git clone https://github.com/Edson-Lira-Povoa/PerformanceBlazeDemo.git
+git clone https://github.com/Edson-Lira-Povoa/PerformanceBlazeDemo
+
 Execute o teste pelo terminal:
 jmeter -n -t ./scripts/script.jmx -l ./results/log_execucao.jtl -e -o ./results/dashboard -f
 
@@ -26,9 +27,13 @@ Reserva: Seleção das cidades de origem e destino
 Escolha de Voo: Seleção da companhia aérea e preço
 Compra: Preenchimento dos dados do passageiro
 Confirmação: Validação da mensagem de sucesso (“Thank you for your purchase today!”)
+
+
 📈 Critérios que considerei
 Vazão alvo: 250 requisições por segundo (RPS)
 Performance: 90th Percentile (P90) abaixo de 2 segundos
+
+
 📊 Resultados que obtive
 Métrica	Valor	Status
 Throughput Médio	46,4 req/s	❌ NOK
